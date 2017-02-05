@@ -6,12 +6,13 @@ This is my **toolbelt** project.
 
 Useful commands:
 
-| Command        | Description         |
-| -------------- | ------------------- |
-| `mix deps.get` | Fetch dependencies  |
-| `mix test`     | Run tests           |
-| `mix docs`     | Generate docs       |
-| `mix credo`    | Analyze code syntax |
+| Command                      | Description         |
+| --------------               | ------------------- |
+| `mix deps.get`               | get dependencies    |
+| `mix credo`                  | analyze code syntax |
+| `mix test --trace`           | run tests           |
+| `MIX_ENV=test mix coveralls` | test coverage       |
+| `mix docs`                   | generate docs       |
 
 ## Installation
 
@@ -32,4 +33,3 @@ def application do
   [applications: [:toolbelt]]
 end
 ```
-

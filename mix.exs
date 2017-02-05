@@ -12,7 +12,8 @@ defmodule Toolbelt.Mixfile do
       docs: [
         extras: ["README.md"],
         main: "README"
-      ]
+      ],
+      test_coverage: [tool: ExCoveralls],
    ]
   end
 
@@ -36,6 +37,7 @@ defmodule Toolbelt.Mixfile do
     [
       {:credo, "~> 0.5", only: [:dev, :test]},
       {:earmark, "~> 1.0.0", only: :dev},
+      {:excoveralls, "~> 0.5", only: :test},
       {:ex_doc, "~> 0.14", only: :dev},
     ]
   end

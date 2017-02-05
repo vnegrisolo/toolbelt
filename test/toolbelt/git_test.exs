@@ -6,7 +6,7 @@ defmodule Toolbelt.GitTest do
   describe "Toolbelt.Git.changed_files/0" do
     setup [:emulate_git_repo]
 
-    test "non staged files should be listed as a changed file" do
+    test "files should be listed as changed" do
       File.rm("first_file")
       File.write("second_file", "update")
       File.touch("third_file")
