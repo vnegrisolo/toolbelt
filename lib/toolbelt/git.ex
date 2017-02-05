@@ -1,4 +1,8 @@
 defmodule Toolbelt.Git do
+  @moduledoc """
+  Toolbelt.Git module deals with git commands
+  """
+
   @doc """
   List changed files
   """

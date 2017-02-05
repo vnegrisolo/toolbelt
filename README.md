@@ -6,11 +6,12 @@ This is my **toolbelt** project.
 
 Useful commands:
 
-| Command        | Description        |
-| -------------  | :-------------:    |
-| `mix deps.get` | Fetch dependencies |
-| `mix test`     | Run tests          |
-| `mix docs`     | Generate docs      |
+| Command        | Description         |
+| -------------- | ------------------- |
+| `mix deps.get` | Fetch dependencies  |
+| `mix test`     | Run tests           |
+| `mix docs`     | Generate docs       |
+| `mix credo`    | Analyze code syntax |
 
 ## Installation
 
