@@ -1,4 +1,7 @@
 defmodule Toolbelt.Git do
+  @doc """
+  List changed files
+  """
   def changed_files do
     git_commands
     |> Enum.map(&run/1)

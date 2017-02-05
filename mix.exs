@@ -2,12 +2,18 @@ defmodule Toolbelt.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :toolbelt,
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :toolbelt,
+      version: "0.1.0",
+      elixir: "~> 1.3",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+      docs: [
+        extras: ["README.md"],
+        main: "README"
+      ]
+   ]
   end
 
   # Configuration for the OTP application
@@ -27,6 +33,9 @@ defmodule Toolbelt.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.14", only: :dev},
+      {:earmark, "~> 1.0.0", only: :dev}
+    ]
   end
 end
