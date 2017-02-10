@@ -35,6 +35,7 @@ defmodule Toolbelt.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:apex, "~>1.0.0", only: [:dev, :test]},
       {:credo, "~> 0.5", only: [:dev, :test]},
       {:earmark, "~> 1.0.0", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
