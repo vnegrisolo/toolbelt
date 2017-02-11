@@ -1,12 +1,12 @@
 defmodule Toolbelt.GitTest do
   use ExUnit.Case, async: true
-  doctest Toolbelt.Git
   alias Toolbelt.Git
+  doctest Git
 
   describe "Toolbelt.Git.changed_files/0" do
     setup [:emulate_git_repo]
 
-    test "files should be listed as changed" do
+    test "lists changed files" do
       File.rm("first_file")
       File.write("second_file", "update")
       File.touch("third_file")
