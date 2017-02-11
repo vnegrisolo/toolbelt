@@ -4,14 +4,14 @@ defmodule Toolbelt.FileSystem do
   """
 
   @typedoc """
-  File path
-  """
-  @type file :: String.t
-
-  @typedoc """
   List of files
   """
-  @type files :: list(file)
+  @type files :: list(String.t)
+
+  @typedoc """
+  Transform info
+  """
+  @type transform :: {Regex.t, String.t}
 
   @doc """
   Filters a list of existing files by a regex
@@ -26,10 +26,10 @@ defmodule Toolbelt.FileSystem do
   @doc """
   Transforms a list of files by a regex
   """
-  @spec transform(files, Regex.t, String.t) :: files
-  def transform([], _, _), do: []
-  def transform([file | list], regex, replacement) do
-    [file | [Regex.replace(regex, file, replacement) | transform(list, regex, replacement)]]
+  @spec transform(files, transform) :: files
+  def transform([], _), do: []
+  def transform([file | list], transform_info = {regex, replacement}) do
+    [file | [Regex.replace(regex, file, replacement) | transform(list, transform_info)]]
     |> Enum.sort
     |> Enum.uniq
   end
