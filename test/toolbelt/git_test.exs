@@ -10,13 +10,13 @@ defmodule Toolbelt.GitTest do
       File.rm("first_file")
       File.write("second_file", "update")
       File.touch("third_file")
-      assert Git.changed_files == ["first_file", "second_file", "third_file"]
+      assert Git.changed_files == ~w[first_file second_file third_file]
 
-      System.cmd("git", ["add", "."])
-      assert Git.changed_files == ["first_file", "second_file", "third_file"]
+      System.cmd("git", ~w[add .])
+      assert Git.changed_files == ~w[first_file second_file third_file]
 
-      System.cmd("git", ["commit", "-m", "Another Commit"])
-      assert Git.changed_files == ["first_file", "second_file", "third_file"]
+      System.cmd("git", ~w[commit -m another_commit])
+      assert Git.changed_files == ~w[first_file second_file third_file]
     end
   end
 
@@ -25,15 +25,15 @@ defmodule Toolbelt.GitTest do
     File.rm_rf(folder)
     File.mkdir(folder)
     File.cd(folder)
-    System.cmd("git", ["init"])
+    System.cmd("git", ~w[init])
 
     File.write("first_file", "first")
     File.write("second_file", "second")
 
-    System.cmd("git", ["add", "."])
-    System.cmd("git", ["commit", "-m", "Initial Commit"])
+    System.cmd("git", ~w[add .])
+    System.cmd("git", ~w[commit -m initial_commit])
 
-    System.cmd("git", ["checkout", "-b", "my-feature"])
+    System.cmd("git", ~w[checkout -b my-feature])
     :ok
   end
 end
