@@ -14,6 +14,7 @@ defmodule Toolbelt.Mixfile do
         main: "README"
       ],
       test_coverage: [tool: ExCoveralls],
+      escript: [main_module: Toolbelt],
    ]
   end
 
