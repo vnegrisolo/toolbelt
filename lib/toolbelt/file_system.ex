@@ -29,7 +29,7 @@ defmodule Toolbelt.FileSystem do
   @spec transform(files, Regex.t, String.t) :: files
   def transform([], _, _), do: []
   def transform([file | list], regex, replacement) do
-    [file | [ Regex.replace(regex, file, replacement) | transform(list, regex, replacement)]]
+    [file | [Regex.replace(regex, file, replacement) | transform(list, regex, replacement)]]
     |> Enum.sort
     |> Enum.uniq
   end
