@@ -1,13 +1,16 @@
 defmodule Toolbelt.Git do
-  @moduledoc """
-  Toolbelt.Git module deals with git commands
-  """
+  @moduledoc "Deals with git commands"
 
-  @doc """
-  List changed files
-  """
+  @git_commands [
+    "git diff --name-only",
+    "git diff --name-only --staged",
+    "git diff --name-only ..master",
+    "git ls-files --others --exclude-standard",
+  ]
+
+  @doc "List changed files"
   def changed_files do
-    git_commands
+    @git_commands
     |> Enum.map(&run_system_command/1)
     |> List.flatten
     |> Enum.sort
@@ -17,15 +20,6 @@ defmodule Toolbelt.Git do
   defp run_system_command(full_command) do
     [command | options] = String.split(full_command)
     {result, 0} = System.cmd(command, options)
-    result |> String.split
-  end
-
-  defp git_commands do
-    [
-      "git diff --name-only",
-      "git ls-files --others --exclude-standard",
-      "git diff --name-only --staged",
-      "git diff --name-only ..master"
-    ]
+    String.split(result)
   end
 end

@@ -1,7 +1,5 @@
 defmodule Toolbelt do
-  @moduledoc """
-  Toolbelt module for project namespacing
-  """
+  @moduledoc "Main Toolbelt module for executable"
 
   alias Toolbelt.Cch
 
@@ -15,13 +13,12 @@ defmodule Toolbelt do
   defp process([]) do
     IO.puts "No arguments given"
   end
-
   defp process(options) do
     IO.puts options
     IO.puts "Hello #{options[:name]}"
-    Cch.run(Cch.config_rspec)
-    Cch.run(Cch.config_rubocop)
-    Cch.run(Cch.config_haml_lint)
+    {:ok} = Cch.run_rubocop()
+    {:ok} = Cch.run_haml_lint()
+    {:ok} = Cch.run_rspec()
   end
 
   defp parse_args(args) do
