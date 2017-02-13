@@ -8,35 +8,36 @@ defmodule Toolbelt.Cch do
   @typedoc "List of files"
   @type files :: list(String.t)
 
-  @haml_lint_config %Config{
-    command: "haml-lint",
-    filter: ~r/\.haml$/
+  @configs %{
+    haml_lint: %Config{
+      command: "haml-lint",
+      filter: ~r/\.haml$/
+    },
+    rspec: %Config{
+      command: "rspec",
+      transforms: [
+        {~r/^app\/(.+)\.rb$/, "spec/\\1_spec.rb"},
+        {~r/^lib\/(.+)\.rb$/, "spec/\\1_spec.rb"},
+        {~r/^lib\/(.+)\.rb$/, "spec/lib/\\1_spec.rb"}
+      ],
+      filter: ~r/_spec\.rb$/
+    },
+    rubocop: %Config{
+      command: "rubocop",
+      filter: ~r/\.rb$/
+    },
   }
 
-  @rspec_config %Config{
-    command: "rspec",
-    transforms: [
-      {~r/^app\/(.+)\.rb$/, "spec/\\1_spec.rb"},
-      {~r/^lib\/(.+)\.rb$/, "spec/\\1_spec.rb"},
-      {~r/^lib\/(.+)\.rb$/, "spec/lib/\\1_spec.rb"}
-    ],
-    filter: ~r/_spec\.rb$/
-  }
-
-  @rubocop_config %Config{
-    command: "rubocop",
-    filter: ~r/\.rb$/
-  }
-
-  def run_haml_lint, do: run(@haml_lint_config)
-  def run_rspec, do: run(@rspec_config)
-  def run_rubocop, do: run(@rubocop_config)
+  def config_keys, do: Map.keys(@configs)
 
   @doc "Runs a command for files after transforms and filter"
-  @spec run(files, Config.t) :: {:ok} | {:none}
-  def run(files \\ Git.changed_files, config) do
-    do_run(files, config)
+  @spec run(files, atom | Config.t) :: {:ok} | {:none}
+  def run(files \\ Git.changed_files, config)
+  def run(files, config) when is_atom(config) do
+    IO.puts("Running Cch for=#{config}")
+    run(files, @configs[config])
   end
+  def run(files, config), do: do_run(files, config)
 
   defp do_run(files, config = %Config{transforms: [transform | list]}) do
     files
