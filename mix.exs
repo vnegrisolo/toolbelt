@@ -39,7 +39,7 @@ defmodule Toolbelt.Mixfile do
       {:apex, "~>1.0.0", only: [:dev, :test]},
       {:credo, "~> 0.5", only: [:dev, :test]},
       {:earmark, "~> 1.0.0", only: :dev},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.6", only: :test},
       {:ex_doc, "~> 0.14", only: :dev},
     ]
   end
