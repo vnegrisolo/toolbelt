@@ -6,7 +6,7 @@ defmodule Toolbelt.GitTest do
   describe "Toolbelt.Git.changed_files/0" do
     setup [:emulate_git_repo]
 
-    test "lists changed files" do
+    test "lists changed files", context do
       File.rm("first_file")
       File.write("second_file", "update")
       File.touch("third_file")
@@ -17,6 +17,8 @@ defmodule Toolbelt.GitTest do
 
       System.cmd("git", ~w[commit -m another_commit])
       assert Git.changed_files == ~w[first_file second_file third_file]
+
+      File.cd(context[:original_dir])
     end
   end
 
@@ -24,6 +26,7 @@ defmodule Toolbelt.GitTest do
     folder = "/tmp/git_test"
     File.rm_rf(folder)
     File.mkdir(folder)
+    {original_dir, 0} = System.cmd("pwd", [])
     File.cd(folder)
     System.cmd("git", ~w[init])
 
@@ -34,6 +37,7 @@ defmodule Toolbelt.GitTest do
     System.cmd("git", ~w[commit -m initial_commit])
 
     System.cmd("git", ~w[checkout -b my-feature])
-    :ok
+
+    [original_dir: String.trim(original_dir)]
   end
 end
