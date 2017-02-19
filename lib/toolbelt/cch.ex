@@ -28,16 +28,11 @@ defmodule Toolbelt.Cch do
     },
   }
 
-  def config_keys, do: Map.keys(@configs)
-
   @doc "Runs a command for files after transforms and filter"
-  @spec run(files, atom | Config.t) :: {:ok} | {:none}
-  def run(files \\ Git.changed_files, config)
-  def run(files, config) when is_atom(config) do
-    IO.puts("Running Cch for=#{config}")
-    run(files, @configs[config])
-  end
-  def run(files, config), do: do_run(files, config)
+  @spec run(atom | Config.t, files) :: {:ok} | {:none}
+  def run(config, files \\ Git.changed_files)
+  def run(config, files) when is_atom(config), do: run(Map.fetch!(@configs, config), files)
+  def run(config, files), do: do_run(files, config)
 
   defp do_run(files, config = %Config{transforms: [transform | list]}) do
     files
@@ -50,10 +45,11 @@ defmodule Toolbelt.Cch do
     |> do_run(Map.delete(config, :filter))
   end
   defp do_run([], %Config{command: command}) do
-    IO.puts("No files to run for #{command}")
+    IO.puts("No files to run Cch for #{command}")
     {:none}
   end
   defp do_run(files, %Config{command: command}) do
+    IO.puts("Running Cch for #{command}")
     System.cmd(command, files)
     {:ok}
   end

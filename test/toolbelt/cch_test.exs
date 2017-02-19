@@ -10,21 +10,23 @@ defmodule Toolbelt.CchTest do
     @transform_csv_to_md {~r/(.+)\.csv$/, "\\1.md"}
 
     test "does not run with no files" do
-      assert Cch.run([], @config) == {:none}
+      assert Cch.run(@config, []) == {:none}
     end
     test "does not run after filter files out" do
-      assert Cch.run(~w[README.csv], %{@config | filter: @filter_md}) == {:none}
+      config = %{@config | filter: @filter_md}
+      assert Cch.run(config, ~w[README.csv]) == {:none}
     end
 
     test "runs command with files" do
-      assert Cch.run(~w[README.md], @config) == {:ok}
+      assert Cch.run(@config, ~w[README.md]) == {:ok}
     end
     test "runs command with filtered files" do
-      assert Cch.run(~w[README.md], %{@config | filter: @filter_md}) == {:ok}
+      config = %{@config | filter: @filter_md}
+      assert Cch.run(config, ~w[README.md]) == {:ok}
     end
     test "runs command with transformed and filtered files" do
       config = %{@config | transforms: [@transform_csv_to_md], filter: @filter_md}
-      assert Cch.run(~w[README.csv], config) == {:ok}
+      assert Cch.run(config, ~w[README.csv]) == {:ok}
     end
   end
 end

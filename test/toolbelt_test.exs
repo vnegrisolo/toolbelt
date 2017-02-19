@@ -3,12 +3,20 @@ defmodule ToolbeltTest do
   doctest Toolbelt
 
   describe "Toolbelt.main/1" do
-    test "does not run when arguments is missing" do
-      assert Toolbelt.main([]) == {:none}
+    test "prints help message" do
+      assert Toolbelt.main(["help"])   == {:help}
+      assert Toolbelt.main(["-h"])     == {:help}
+      assert Toolbelt.main(["--help"]) == {:help}
     end
 
     test "does not run cch when there are no switches" do
       assert Toolbelt.main(["cch"]) == []
+    end
+
+    test "raises an KeyError when switch is invalid" do
+      assert_raise KeyError, fn ->
+        Toolbelt.main(["cch", "--fake-switch"])
+      end
     end
   end
 end
