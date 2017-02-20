@@ -18,5 +18,9 @@ defmodule ToolbeltTest do
         Toolbelt.main(["cch", "--fake-switch"])
       end
     end
+
+    test "calls Pair print_status" do
+      assert Toolbelt.main(["pair", "--status"]) == {:ok}
+    end
   end
 end

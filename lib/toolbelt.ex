@@ -19,9 +19,20 @@ defmodule Toolbelt do
   ```shell
   toolbelt cch --rspec --rubocop
   ```
+
+  ## pair
+
+  * `--status`
+
+  ### example:
+
+  ```shell
+  toolbelt pair --status
+  ```
   """
 
   alias Toolbelt.Cch
+  alias Toolbelt.Pair
 
   @doc "this is the main function for the script"
   @spec main(list(String.t)) :: any
@@ -36,6 +47,9 @@ defmodule Toolbelt do
     switches
     |> Keyword.keys
     |> Enum.map(&Cch.run/1)
+  end
+  defp process({[status: true], ["pair"], _invalids}) do
+    Pair.print_status
   end
 
   defp print_help do

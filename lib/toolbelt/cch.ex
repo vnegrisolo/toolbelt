@@ -45,11 +45,15 @@ defmodule Toolbelt.Cch do
     |> do_run(Map.delete(config, :filter))
   end
   defp do_run([], %Config{command: command}) do
-    IO.puts(IO.ANSI.format_fragment([:red, "No files to run Cch for #{command}"]))
+    [:red, "No files to run Cch for #{command}"]
+    |> IO.ANSI.format_fragment(true)
+    |> IO.puts
     {:none}
   end
   defp do_run(files, %Config{command: command}) do
-    IO.puts(IO.ANSI.format_fragment([:green, "Running Cch for #{command}"]))
+    [:green, "Running Cch for #{command}"]
+    |> IO.ANSI.format_fragment(true)
+    |> IO.puts
     System.cmd(command, files)
     {:ok}
   end
