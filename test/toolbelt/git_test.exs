@@ -22,6 +22,22 @@ defmodule Toolbelt.GitTest do
     end
   end
 
+  describe "Toolbelt.Git.last_commits/0" do
+    setup [:emulate_git_repo]
+
+    test "lists changed files", context do
+      File.touch("third_file")
+      System.cmd("git", ~w[add .])
+      System.cmd("git", ~w[commit -m another_commit])
+
+      [last | [first | []]] = Git.last_commits
+      assert last.message == "another_commit"
+      assert first.message == "initial_commit"
+
+      File.cd(context[:original_dir])
+    end
+  end
+
   defp emulate_git_repo(_context) do
     folder = "/tmp/git_test"
     File.rm_rf(folder)

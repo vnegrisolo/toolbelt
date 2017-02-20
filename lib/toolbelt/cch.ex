@@ -28,7 +28,7 @@ defmodule Toolbelt.Cch do
     },
   }
 
-  @doc "Runs a command for files after transforms and filter"
+  @doc "runs a command for files after transforms and filter"
   @spec run(atom | Config.t, files) :: {:ok} | {:none}
   def run(config, files \\ Git.changed_files)
   def run(config, files) when is_atom(config), do: run(Map.fetch!(@configs, config), files)

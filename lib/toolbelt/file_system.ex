@@ -7,7 +7,7 @@ defmodule Toolbelt.FileSystem do
   @typedoc "Transform info"
   @type transform :: {Regex.t, String.t}
 
-  @doc "Filters a list of existing files by a regex"
+  @doc "filters a list of existing files by a regex"
   @spec filter(files, Regex.t) :: files
   def filter(files, regex) do
     files
@@ -15,7 +15,7 @@ defmodule Toolbelt.FileSystem do
     |> Enum.filter(&Regex.match?(regex, &1))
   end
 
-  @doc "Transforms a list of files by a regex"
+  @doc "transforms a list of files by a regex"
   @spec transform(files, transform) :: files
   def transform(files, transform) do
     files
