@@ -33,9 +33,43 @@ defmodule Toolbelt.Git do
     |> Enum.map(&build_commmit/1)
   end
 
+  @doc "get git config"
+  @spec get_config(String.t) :: String.t
+  def get_config(key) do
+    "git config --get #{key}"
+    |> run_system_command
+    |> List.first
+  end
+
+  @doc "set git config"
+  @spec set_config(String.t, String.t) :: any
+  def set_config(key, value) do
+    run_system_command("git config #{key} #{value}")
+  end
+
+  @doc "reset git config"
+  @spec reset_config(String.t) :: any
+  def reset_config(key) do
+    run_system_command("git config --remove-section #{key}")
+  end
+
+  @doc "get git global config"
+  @spec get_global_config(String.t) :: String.t
+  def get_global_config(key) do
+    "git config --global --get #{key}"
+    |> run_system_command
+    |> List.first
+  end
+
+  @doc "set git global config"
+  @spec set_global_config(String.t, String.t) :: any
+  def set_global_config(key, value) do
+    run_system_command("git config --global #{key} #{value}")
+  end
+
   defp run_system_command(full_command) do
     [command | options] = String.split(full_command)
-    {result, 0} = System.cmd(command, options)
+    {result, _status} = System.cmd(command, options)
     String.split(result)
   end
 

@@ -3,7 +3,7 @@ defmodule Toolbelt.GitTest do
   alias Toolbelt.Git
   doctest Git
 
-  describe "Toolbelt.Git.changed_files/0" do
+  describe "changed_files/0" do
     setup [:emulate_git_repo]
 
     test "lists changed files", context do
@@ -22,7 +22,7 @@ defmodule Toolbelt.GitTest do
     end
   end
 
-  describe "Toolbelt.Git.last_commits/0" do
+  describe "last_commits/0" do
     setup [:emulate_git_repo]
 
     test "lists changed files", context do
@@ -35,6 +35,27 @@ defmodule Toolbelt.GitTest do
       assert first.message == "initial_commit"
 
       File.cd(context[:original_dir])
+    end
+  end
+
+  describe "set_config/1, get_config/2 and reset_config/1" do
+    setup [:emulate_git_repo]
+
+    test "set and get git config", context do
+      Git.set_config("toolbelt.test.sport", "football")
+      assert Git.get_config("toolbelt.test.sport") == "football"
+
+      Git.reset_config("toolbelt.test")
+      assert Git.get_config("toolbelt.test.sport") == nil
+
+      File.cd(context[:original_dir])
+    end
+  end
+
+  describe "set_global_config/1 and get_global_config/2" do
+    test "set and get git config" do
+      Git.set_global_config("toolbelt.testglobal.sport", "snowboard")
+      assert Git.get_global_config("toolbelt.testglobal.sport") == "snowboard"
     end
   end
 
