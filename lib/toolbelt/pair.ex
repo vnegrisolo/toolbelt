@@ -25,8 +25,8 @@ defmodule Toolbelt.Pair do
   defp print_authors(authors) do
     authors
     |> String.split(",")
-    |> Enum.map(& Terminal.colored_text/1)
-    |> Enum.map(& ["Author: ", &1, "\n"])
+    |> Enum.map(&Terminal.colored_text/1)
+    |> Enum.map(&["Author: ", &1, "\n"])
     |> Terminal.puts
   end
 end
