@@ -30,7 +30,7 @@ defmodule Toolbelt.GitTest do
       System.cmd("git", ~w[add .])
       System.cmd("git", ~w[commit -m another_commit])
 
-      [last | [first | []]] = Git.last_commits
+      [last, first] = Git.last_commits
       assert last.message == "another_commit"
       assert first.message == "initial_commit"
 

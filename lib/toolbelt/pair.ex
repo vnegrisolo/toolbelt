@@ -3,6 +3,7 @@ defmodule Toolbelt.Pair do
 
   alias Toolbelt.Git
   alias Toolbelt.Git.Commit
+  alias Toolbelt.Terminal
 
   @authors_key "toolbelt.pair.authors"
 
@@ -13,29 +14,19 @@ defmodule Toolbelt.Pair do
     {:ok}
   end
 
-  @colors ~w[blue cyan green magenta red white yellow]a
-
   defp print_commit(%Commit{sha: sha, author: author, committer: committer, message: message}) do
-    [sha, " | ", colored_author(author), :reset, " | ", colored_author(committer), :reset, " => ", message]
-    |> List.flatten
-    |> IO.ANSI.format_fragment(true)
-    |> IO.puts
+    colored_author    = Terminal.colored_text(author)
+    colored_committer = Terminal.colored_text(committer)
+    [sha, " | ", colored_author, " | ", colored_committer, " => ", message]
+    |> Terminal.puts
   end
 
   defp print_authors(nil), do: {:none}
   defp print_authors(authors) do
     authors
     |> String.split(",")
-    |> Enum.map(& colored_author/1)
-    |> Enum.map(& ["Author: ", &1, :reset, "\n"])
-    |> List.flatten
-    |> IO.ANSI.format_fragment(true)
-    |> IO.puts
-  end
-
-  defp colored_author(author) do
-    count = Enum.count(@colors)
-    author_hash = :crypto.hash(:sha, author)
-    [Enum.at(@colors, rem(:binary.decode_unsigned(author_hash), count)), author]
+    |> Enum.map(& Terminal.colored_text/1)
+    |> Enum.map(& ["Author: ", &1, "\n"])
+    |> Terminal.puts
   end
 end

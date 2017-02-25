@@ -4,6 +4,7 @@ defmodule Toolbelt.Cch do
   alias Toolbelt.Cch.Config
   alias Toolbelt.FileSystem
   alias Toolbelt.Git
+  alias Toolbelt.Terminal
 
   @typedoc "List of files"
   @type files :: list(String.t)
@@ -45,15 +46,11 @@ defmodule Toolbelt.Cch do
     |> do_run(Map.delete(config, :filter))
   end
   defp do_run([], %Config{command: command}) do
-    [:red, "No files to run Cch for #{command}"]
-    |> IO.ANSI.format_fragment(true)
-    |> IO.puts
+    Terminal.puts([:red, "No files to run Cch for #{command}"])
     {:none}
   end
   defp do_run(files, %Config{command: command}) do
-    [:green, "Running Cch for #{command}"]
-    |> IO.ANSI.format_fragment(true)
-    |> IO.puts
+    Terminal.puts([:green, "Running Cch for #{command}"])
     System.cmd(command, files)
     {:ok}
   end
