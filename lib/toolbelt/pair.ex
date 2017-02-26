@@ -18,6 +18,10 @@ defmodule Toolbelt.Pair do
     |> Git.set_config(@authors_key)
   end
 
+  def reset do
+    Git.reset_config(@pair_key)
+  end
+
   @doc "print pair status"
   def print_status do
     print_authors(Git.get_config(@authors_key))

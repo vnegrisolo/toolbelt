@@ -22,11 +22,15 @@ defmodule Toolbelt do
 
   ## pair
 
+  * `user1 user2 user3`
   * `--status`
+  * `--reset`
 
   ### example:
 
   ```shell
+  toolbelt pair --reset
+  toolbelt pair vnegrisolo other-dev
   toolbelt pair --status
   ```
   """
@@ -50,11 +54,16 @@ defmodule Toolbelt do
     |> Enum.map(&Cch.run/1)
   end
   defp process({[], ["pair"|authors], _invalids}) do
+    Pair.reset
     Pair.configure(authors)
     {:ok}
   end
   defp process({[status: true], ["pair"], _invalids}) do
     Pair.print_status
+    {:ok}
+  end
+  defp process({[reset: true], ["pair"], _invalids}) do
+    Pair.reset
     {:ok}
   end
 
