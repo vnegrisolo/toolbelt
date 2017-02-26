@@ -50,9 +50,9 @@ defmodule Toolbelt.Git do
 
   @doc "set git config"
   @spec set_config(String.t, String.t, config_flags) :: {:ok}
-  def set_config(key, value, flags \\ [])
-  def set_config(key, value, global: true), do: set_config(key, value, ["--global"])
-  def set_config(key, value, flags) do
+  def set_config(value, key, flags \\ [])
+  def set_config(value, key, global: true), do: set_config(value, key, ["--global"])
+  def set_config(value, key, flags) do
     System.cmd("git config #{flags} #{key} #{value}")
     {:ok}
   end
