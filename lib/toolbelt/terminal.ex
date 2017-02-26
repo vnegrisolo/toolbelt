@@ -13,6 +13,16 @@ defmodule Toolbelt.Terminal do
     {:ok}
   end
 
+  @doc "reads user input with a colored message"
+  @spec gets(list(String.t | atom)) :: String.t
+  def gets(list) do
+    [list | [:reset]]
+    |> List.flatten
+    |> IO.ANSI.format_fragment(true)
+    |> IO.gets
+    |> String.trim
+  end
+
   @doc "get a colored version of a text based on its sha value"
   @spec colored_text(String.t) :: list(String.t | atom)
   def colored_text(text) do
