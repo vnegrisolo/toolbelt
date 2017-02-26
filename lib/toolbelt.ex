@@ -41,28 +41,28 @@ defmodule Toolbelt do
   @doc "this is the main function for the script"
   @spec main(list(String.t)) :: any
   def main(args) when is_binary(args), do: args |> String.split |> main
-  def main(args), do: args |> parse_args |> process
+  def main(args), do: args |> parse_args |> process(args)
 
   defp parse_args(args), do: OptionParser.parse(args, aliases: [h: :help])
 
-  defp process({[h: true], _argv, _invalids}),    do: print_help
-  defp process({[help: true], _argv, _invalids}), do: print_help
-  defp process({_switches, ["help"], _invalids}), do: print_help
-  defp process({switches, ["cch"], _invalids}) do
+  defp process({[h: true], _argv, _invalids}, _args),    do: print_help
+  defp process({[help: true], _argv, _invalids}, _args), do: print_help
+  defp process({_switches, ["help"], _invalids}, _args), do: print_help
+  defp process({switches, ["cch"], _invalids}, _args) do
     switches
     |> Keyword.keys
     |> Enum.map(&Cch.run/1)
   end
-  defp process({[], ["pair"|authors], _invalids}) do
+  defp process({[], ["pair"|authors], _invalids}, _args) do
     Pair.reset
     Pair.configure(authors)
     {:ok}
   end
-  defp process({[status: true], ["pair"], _invalids}) do
+  defp process({[status: true], ["pair"], _invalids}, _args) do
     Pair.print_status
     {:ok}
   end
-  defp process({[reset: true], ["pair"], _invalids}) do
+  defp process({[reset: true], ["pair"], _invalids}, _args) do
     Pair.reset
     {:ok}
   end
