@@ -64,7 +64,7 @@ defmodule Toolbelt.GitTest do
       assert Git.get_config(key) == "climbing"
 
       Git.reset_config(namespace_key)
-      assert Git.get_config(key) == nil
+      assert Git.get_config(key) == ""
 
       File.cd(context[:original_dir])
     end
@@ -73,12 +73,12 @@ defmodule Toolbelt.GitTest do
       namespace_key = "toolbelt.test"
       key = "#{namespace_key}.sport"
 
-      assert Git.get_config(key, global: true) == nil
+      assert Git.get_config(key, global: true) == ""
       Git.set_config("climbing", key, global: true)
       assert Git.get_config(key, global: true) == "climbing"
 
       Git.reset_config(namespace_key, global: true)
-      assert Git.get_config(key, global: true) == nil
+      assert Git.get_config(key, global: true) == ""
 
       File.cd(context[:original_dir])
     end

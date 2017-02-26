@@ -44,8 +44,7 @@ defmodule Toolbelt.Git do
   def get_config(key, flags) do
     "git config #{flags} --get #{key}"
     |> System.cmd
-    |> System.split_result
-    |> List.first
+    |> String.trim
   end
 
   @doc "set git config"
