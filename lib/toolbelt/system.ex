@@ -3,13 +3,18 @@ defmodule Toolbelt.System do
 
   alias Toolbelt.Terminal
 
+  def cmd(full_command = [command|options]) do
+    Terminal.puts([:yellow, "command: ", :reset, Enum.join(full_command, " ")])
+    {result, _status} = System.cmd(command, List.flatten(options))
+    String.trim(result)
+  end
+
   @doc "runs a system command"
   @spec cmd(String.t) :: String.t
   def cmd(full_command) do
-    Terminal.puts([:yellow, "command: ", :reset, full_command])
-    [command | options] = String.split(full_command)
-    {result, _status} = System.cmd(command, options)
-    String.trim(result)
+    full_command
+    |> String.split
+    |> cmd
   end
 
   @doc "splits a system command result"

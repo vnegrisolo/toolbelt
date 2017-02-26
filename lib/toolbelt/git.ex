@@ -53,7 +53,7 @@ defmodule Toolbelt.Git do
   def set_config(value, key, flags \\ [])
   def set_config(value, key, global: true), do: set_config(value, key, ["--global"])
   def set_config(value, key, flags) do
-    System.cmd("git config #{flags} #{key} #{value}")
+    System.cmd(["git", "config", flags, key, value])
     {:ok}
   end
 
