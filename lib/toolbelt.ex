@@ -36,6 +36,7 @@ defmodule Toolbelt do
 
   @doc "this is the main function for the script"
   @spec main(list(String.t)) :: any
+  def main(args) when is_binary(args), do: args |> String.split |> main
   def main(args), do: args |> parse_args |> process
 
   defp parse_args(args), do: OptionParser.parse(args, aliases: [h: :help])
