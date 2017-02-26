@@ -38,24 +38,49 @@ defmodule Toolbelt.GitTest do
     end
   end
 
-  describe "set_config/1, get_config/2 and reset_config/1" do
+  describe "last_commit/0" do
     setup [:emulate_git_repo]
 
-    test "set and get git config", context do
-      Git.set_config("toolbelt.test.sport", "football")
-      assert Git.get_config("toolbelt.test.sport") == "football"
+    test "lists changed files", context do
+      File.touch("third_file")
+      System.cmd("git", ~w[add .])
+      System.cmd("git", ~w[commit -m another_commit])
 
-      Git.reset_config("toolbelt.test")
-      assert Git.get_config("toolbelt.test.sport") == nil
+      last = Git.last_commit
+      assert last.message == "another_commit"
 
       File.cd(context[:original_dir])
     end
   end
 
-  describe "set_global_config/1 and get_global_config/2" do
-    test "set and get git config" do
-      Git.set_global_config("toolbelt.testglobal.sport", "snowboard")
-      assert Git.get_global_config("toolbelt.testglobal.sport") == "snowboard"
+  describe "config/1, config/2 and reset_config/1" do
+    setup [:emulate_git_repo]
+
+    test "set, get and reset git config", context do
+      namespace_key = "toolbelt.test"
+      key = "#{namespace_key}.sport"
+
+      Git.set_config(key, "climbing")
+      assert Git.get_config(key) == "climbing"
+
+      Git.reset_config(namespace_key)
+      assert Git.get_config(key) == nil
+
+      File.cd(context[:original_dir])
+    end
+
+    test "set, get and reset git config with global flag", context do
+      namespace_key = "toolbelt.test"
+      key = "#{namespace_key}.sport"
+
+      assert Git.get_config(key, global: true) == nil
+      Git.set_config(key, "climbing", global: true)
+      assert Git.get_config(key, global: true) == "climbing"
+
+      Git.reset_config(namespace_key, global: true)
+      assert Git.get_config(key, global: true) == nil
+
+      File.cd(context[:original_dir])
     end
   end
 

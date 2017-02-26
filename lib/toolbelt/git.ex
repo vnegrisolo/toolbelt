@@ -4,7 +4,10 @@ defmodule Toolbelt.Git do
   alias Toolbelt.Git.Commit
   alias Toolbelt.System
 
-  @git_commands [
+  @typedoc "git config flags"
+  @type config_flags :: Keyword.t | list(String.t)
+
+  @changed_files_commands [
     "git diff --name-only",
     "git diff --name-only --staged",
     "git diff --name-only ..master",
@@ -13,7 +16,7 @@ defmodule Toolbelt.Git do
 
   @doc "list changed files"
   def changed_files do
-    @git_commands
+    @changed_files_commands
     |> Enum.map(&System.cmd/1)
     |> Enum.map(&System.split_result/1)
     |> List.flatten
@@ -21,51 +24,45 @@ defmodule Toolbelt.Git do
     |> Enum.uniq
   end
 
-  @doc "last 10 commits"
-  def last_commits do
-    "git log -10 --pretty=format:%h|%ae|%ce|%s"
+  @doc "last n commits"
+  @spec last_commits(integer) :: String.t
+  def last_commits(count \\ 10) do
+    "git log -#{count} --pretty=format:%h|%ae|%ce|%s"
     |> System.cmd
     |> System.split_result("\n")
     |> Enum.map(&String.split(&1, "|"))
     |> Enum.map(&build_commmit/1)
   end
 
+  @doc "last commit"
+  def last_commit, do: List.first(last_commits(1))
+
   @doc "get git config"
-  @spec get_config(String.t) :: String.t
-  def get_config(key) do
-    "git config --get #{key}"
+  @spec get_config(String.t, config_flags) :: String.t
+  def get_config(key, flags \\ [])
+  def get_config(key, global: true), do: get_config(key, ["--global"])
+  def get_config(key, flags) do
+    "git config #{flags} --get #{key}"
     |> System.cmd
     |> System.split_result
     |> List.first
   end
 
   @doc "set git config"
-  @spec set_config(String.t, String.t) :: any
-  def set_config(key, value) do
-    System.cmd("git config #{key} #{value}")
+  @spec set_config(String.t, String.t, config_flags) :: {:ok}
+  def set_config(key, value, flags \\ [])
+  def set_config(key, value, global: true), do: set_config(key, value, ["--global"])
+  def set_config(key, value, flags) do
+    System.cmd("git config #{flags} #{key} #{value}")
     {:ok}
   end
 
   @doc "reset git config"
-  @spec reset_config(String.t) :: any
-  def reset_config(key) do
-    System.cmd("git config --remove-section #{key}")
-    {:ok}
-  end
-
-  @doc "get git global config"
-  @spec get_global_config(String.t) :: String.t
-  def get_global_config(key) do
-    "git config --global --get #{key}"
-    |> System.cmd
-    |> System.split_result
-    |> List.first
-  end
-
-  @doc "set git global config"
-  @spec set_global_config(String.t, String.t) :: any
-  def set_global_config(key, value) do
-    System.cmd("git config --global #{key} #{value}")
+  @spec reset_config(String.t, config_flags) :: {:ok}
+  def reset_config(key, flags \\ [])
+  def reset_config(key, global: true), do: reset_config(key, ["--global"])
+  def reset_config(key, flags) do
+    System.cmd("git config #{flags} --remove-section #{key}")
     {:ok}
   end
 
