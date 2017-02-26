@@ -22,5 +22,9 @@ defmodule ToolbeltTest do
     test "calls Pair print_status" do
       assert Toolbelt.main("pair --status") == {:ok}
     end
+
+    # test "calls Pair configure" do
+    #   assert Toolbelt.main("pair vnegrisolo another-dev") == {:ok}
+    # end
   end
 end

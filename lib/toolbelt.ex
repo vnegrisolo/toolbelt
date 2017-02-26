@@ -49,8 +49,13 @@ defmodule Toolbelt do
     |> Keyword.keys
     |> Enum.map(&Cch.run/1)
   end
+  defp process({[], ["pair"|authors], _invalids}) do
+    Pair.configure(authors)
+    {:ok}
+  end
   defp process({[status: true], ["pair"], _invalids}) do
     Pair.print_status
+    {:ok}
   end
 
   defp print_help do
