@@ -8,6 +8,32 @@ defmodule Toolbelt.Pair do
   @pair_key "toolbelt.pair"
   @authors_key "#{@pair_key}.authors"
 
+  def commit(args) do
+    authors = @authors_key
+              |> Git.get_config
+              |> String.split(",")
+              |> Enum.map(&Git.get_config("#{@pair_key}.#{&1}", global: true))
+              |> Enum.map(&parse_author/1)
+
+    last_author = Git.last_commit.author
+
+    index = Enum.find_index(authors, fn(a) -> a["email"] == last_author end) || 0
+    author = Enum.at(authors, index - 1)
+    committer = Enum.at(authors, index)
+
+    options = [
+      {"GIT_AUTHOR_NAME",     author["name"]},
+      {"GIT_AUTHOR_EMAIL",    author["email"]},
+      {"GIT_COMMITTER_NAME",  committer["name"]},
+      {"GIT_COMMITTER_EMAIL", committer["email"]}
+    ]
+    System.cmd(["git"|args], env: options)
+  end
+
+  defp parse_author(author) do
+    Regex.named_captures(~r/^(?<name>.+) <(?<email>.+)>/, author)
+  end
+
   @doc "configure pair authors"
   @spec configure(list(String.t)) :: {:ok}
   def configure([]), do: {:ok}

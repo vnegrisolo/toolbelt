@@ -53,6 +53,10 @@ defmodule Toolbelt do
     |> Keyword.keys
     |> Enum.map(&Cch.run/1)
   end
+  defp process({_switches, ["pair"|["commit"|_rest]], _invalids}, ["pair"|args]) do
+    Pair.commit(args)
+    {:ok}
+  end
   defp process({[], ["pair"|authors], _invalids}, _args) do
     Pair.reset
     Pair.configure(authors)
