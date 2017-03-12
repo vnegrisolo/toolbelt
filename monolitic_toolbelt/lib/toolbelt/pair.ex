@@ -3,7 +3,7 @@ defmodule Toolbelt.Pair do
 
   alias Toolbelt.Git
   alias Toolbelt.Git.Commit
-  alias Toolbelt.Terminal
+  alias TbSystem.IO
 
   @pair_key "toolbelt.pair"
   @authors_key "#{@pair_key}.authors"
@@ -61,25 +61,25 @@ defmodule Toolbelt.Pair do
     do_configure(list)
   end
   defp do_configure(author) do
-    Terminal.puts(["##### ", :cyan, author, :reset, " #####"])
-    email = Terminal.gets(["type your ", :yellow, "email", :reset, ": "])
-    name = Terminal.gets(["type your ", :yellow, "name", :reset, ": "])
+    IO.puts(["##### ", :cyan, author, :reset, " #####"])
+    email = IO.gets(["type your ", :yellow, "email", :reset, ": "])
+    name  = IO.gets(["type your ", :yellow, "name",  :reset, ": "])
     Git.set_config("#{name} <#{email}>", "#{@pair_key}.#{author}", global: true)
   end
 
   defp print_commit(%Commit{sha: sha, author: author, committer: committer, message: message}) do
-    colored_author    = Terminal.colored_text(author)
-    colored_committer = Terminal.colored_text(committer)
+    colored_author    = IO.add_color(author)
+    colored_committer = IO.add_color(committer)
     [sha, " | ", colored_author, " | ", colored_committer, " => ", message]
-    |> Terminal.puts
+    |> IO.puts
   end
 
   defp print_authors(nil), do: {:none}
   defp print_authors(authors) do
     authors
     |> String.split(",")
-    |> Enum.map(&Terminal.colored_text/1)
+    |> Enum.map(&IO.add_color/1)
     |> Enum.map(&["Author: ", &1, "\n"])
-    |> Terminal.puts
+    |> IO.puts
   end
 end

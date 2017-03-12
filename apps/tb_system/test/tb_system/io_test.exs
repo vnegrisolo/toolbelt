@@ -24,4 +24,12 @@ defmodule TbSystem.IOTest do
       ) == "\e[31mfoo\e[0m\n"
     end
   end
+
+  describe "add_color/1" do
+    test "add same color to text" do
+      assert IO.add_color("foo") == [:blue,  "foo", :reset]
+      assert IO.add_color("bar") == [:white, "bar", :reset]
+      assert IO.add_color("foo") == [:blue,  "foo", :reset]
+    end
+  end
 end
