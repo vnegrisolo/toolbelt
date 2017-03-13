@@ -7,9 +7,10 @@ This is my **toolbelt** project.
 Useful commands:
 
 | Command                                      | Description         |
-| --------------                               | ------------------- |
+| -------------------------------------------- | ------------------- |
 | `mix deps.get`                               | get dependencies    |
-| `mix credo`                                  | analyze code syntax |
+| `mix credo`                                  | style code analysis |
+| `mix dialyzer`                               | BEAM code analysis  |
 | `mix test --trace`                           | run tests           |
 | `MIX_ENV=test mix coveralls.html --umbrella` | test coverage       |
 | `mix docs`                                   | generate docs       |

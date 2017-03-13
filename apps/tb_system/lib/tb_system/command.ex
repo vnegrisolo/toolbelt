@@ -4,7 +4,7 @@ defmodule TbSystem.Command do
   alias TbSystem.IO
 
   @doc "runs a system command"
-  @spec run(String.t | list(String.t), list(any)) :: String.t
+  @spec run(String.t | list(String.t), list(any)) :: list(String.t)
   def run(command, options \\ [])
   def run(full_command = [command | args], [{:separator, separator} | options]) do
     IO.puts([:yellow, "command: ", :reset, Enum.join(full_command, " ")])
