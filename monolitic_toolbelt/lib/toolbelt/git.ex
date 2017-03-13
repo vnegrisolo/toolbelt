@@ -3,6 +3,7 @@ defmodule Toolbelt.Git do
 
   alias Toolbelt.Git.Commit
   alias Toolbelt.System
+  alias TbSystem.Command
 
   @typedoc "git config flags"
   @type config_flags :: Keyword.t | list(String.t)
@@ -17,8 +18,7 @@ defmodule Toolbelt.Git do
   @doc "list changed files"
   def changed_files do
     @changed_files_commands
-    |> Enum.map(&System.cmd/1)
-    |> Enum.map(&System.split_result/1)
+    |> Enum.map(&Command.run/1)
     |> List.flatten
     |> Enum.sort
     |> Enum.uniq
@@ -28,8 +28,7 @@ defmodule Toolbelt.Git do
   @spec last_commits(integer) :: String.t
   def last_commits(count \\ 10) do
     "git log -#{count} --pretty=format:%h|%ae|%ce|%s"
-    |> System.cmd
-    |> System.split_result("\n")
+    |> Command.run
     |> Enum.map(&String.split(&1, "|"))
     |> Enum.map(&build_commmit/1)
   end
@@ -43,7 +42,7 @@ defmodule Toolbelt.Git do
   def get_config(key, global: true), do: get_config(key, ["--global"])
   def get_config(key, flags) do
     "git config #{flags} --get #{key}"
-    |> System.cmd
+    |> Command.run
     |> String.trim
   end
 
@@ -52,7 +51,7 @@ defmodule Toolbelt.Git do
   def set_config(value, key, flags \\ [])
   def set_config(value, key, global: true), do: set_config(value, key, ["--global"])
   def set_config(value, key, flags) do
-    System.cmd(["git", "config", flags, key, value])
+    Command.run(["git", "config", flags, key, value])
     {:ok}
   end
 
@@ -61,7 +60,7 @@ defmodule Toolbelt.Git do
   def reset_config(key, flags \\ [])
   def reset_config(key, global: true), do: reset_config(key, ["--global"])
   def reset_config(key, flags) do
-    System.cmd("git config #{flags} --remove-section #{key}")
+    Command.run("git config #{flags} --remove-section #{key}")
     {:ok}
   end
 

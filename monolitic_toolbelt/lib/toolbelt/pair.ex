@@ -4,6 +4,7 @@ defmodule Toolbelt.Pair do
   alias Toolbelt.Git
   alias Toolbelt.Git.Commit
   alias TbSystem.IO
+  alias TbSystem.Command
 
   @pair_key "toolbelt.pair"
   @authors_key "#{@pair_key}.authors"
@@ -27,7 +28,7 @@ defmodule Toolbelt.Pair do
       {"GIT_COMMITTER_NAME",  committer["name"]},
       {"GIT_COMMITTER_EMAIL", committer["email"]}
     ]
-    System.cmd(["git"|args], env: options)
+    Command.run(["git" | args], env: options)
   end
 
   defp parse_author(author) do

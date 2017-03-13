@@ -5,6 +5,7 @@ defmodule Toolbelt.Cch do
   alias Toolbelt.FileSystem
   alias Toolbelt.Git
   alias TbSystem.IO
+  alias TbSystem.Command
 
   @typedoc "List of files"
   @type files :: list(String.t)
@@ -51,7 +52,7 @@ defmodule Toolbelt.Cch do
   end
   defp do_run(files, %Config{command: command}) do
     IO.puts([:green, "Running Cch for #{command}"])
-    System.cmd(command, files)
+    Command.run(command, files)
     {:ok}
   end
 end
