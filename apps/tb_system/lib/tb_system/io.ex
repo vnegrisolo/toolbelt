@@ -1,23 +1,24 @@
 defmodule TbSystem.IO do
   @moduledoc "IO for terminal"
 
+  @io Application.fetch_env!(:tb_system, :io)
   @colors ~w[blue cyan green magenta red white yellow]a
 
   @doc "reads input with colored message"
-  @spec gets(list(String.t | atom)) :: String.t
-  def gets(text) do
+  @spec gets(list(String.t | atom), TbSystem.IO.Mock.t) :: String.t
+  def gets(text, io \\ @io) do
     text
     |> format_color
-    |> IO.gets
+    |> io.gets
     |> String.trim
   end
 
   @doc "print colored message"
-  @spec puts(list(String.t | atom)) :: :ok
-  def puts(text) do
+  @spec puts(list(String.t | atom), TbSystem.IO.Mock.t) :: :ok
+  def puts(text, io \\ @io) do
     text
     |> format_color
-    |> IO.puts
+    |> io.puts
   end
 
   @doc "add color to text"
