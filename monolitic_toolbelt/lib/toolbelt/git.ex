@@ -1,8 +1,6 @@
 defmodule Toolbelt.Git do
   @moduledoc "Deals with git commands"
 
-  alias Toolbelt.Git.Commit
-  alias Toolbelt.System
   alias TbSystem.Command
 
   @typedoc "git config flags"
@@ -23,18 +21,6 @@ defmodule Toolbelt.Git do
     |> Enum.sort
     |> Enum.uniq
   end
-
-  @doc "last n commits"
-  @spec last_commits(integer) :: String.t
-  def last_commits(count \\ 10) do
-    "git log -#{count} --pretty=format:%h|%ae|%ce|%s"
-    |> Command.run
-    |> Enum.map(&String.split(&1, "|"))
-    |> Enum.map(&build_commmit/1)
-  end
-
-  @doc "last commit"
-  def last_commit, do: List.first(last_commits(1))
 
   @doc "get git config"
   @spec get_config(String.t, config_flags) :: String.t
@@ -62,14 +48,5 @@ defmodule Toolbelt.Git do
   def reset_config(key, flags) do
     Command.run("git config #{flags} --remove-section #{key}")
     {:ok}
-  end
-
-  defp build_commmit([sha, author, committer, message]) do
-    %Commit{
-      sha: sha,
-      author: author,
-      committer: committer,
-      message: message,
-    }
   end
 end

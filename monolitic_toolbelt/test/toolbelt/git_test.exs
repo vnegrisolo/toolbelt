@@ -22,37 +22,6 @@ defmodule Toolbelt.GitTest do
     end
   end
 
-  describe "last_commits/0" do
-    setup [:emulate_git_repo]
-
-    test "lists changed files", context do
-      File.touch("third_file")
-      System.cmd("git", ~w[add .])
-      System.cmd("git", ~w[commit -m another_commit])
-
-      [last, first] = Git.last_commits
-      assert last.message == "another_commit"
-      assert first.message == "initial_commit"
-
-      File.cd(context[:original_dir])
-    end
-  end
-
-  describe "last_commit/0" do
-    setup [:emulate_git_repo]
-
-    test "lists changed files", context do
-      File.touch("third_file")
-      System.cmd("git", ~w[add .])
-      System.cmd("git", ~w[commit -m another_commit])
-
-      last = Git.last_commit
-      assert last.message == "another_commit"
-
-      File.cd(context[:original_dir])
-    end
-  end
-
   describe "config/1, config/2 and reset_config/1" do
     setup [:emulate_git_repo]
 
@@ -85,7 +54,7 @@ defmodule Toolbelt.GitTest do
   end
 
   defp emulate_git_repo(_context) do
-    folder = "/tmp/git_test"
+    folder = "/tmp/test-#{__MODULE__}"
     File.rm_rf(folder)
     File.mkdir(folder)
     {original_dir, 0} = System.cmd("pwd", [])

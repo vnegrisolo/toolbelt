@@ -2,7 +2,8 @@ defmodule Toolbelt.Pair do
   @moduledoc "Setup pair programming on git repo"
 
   alias Toolbelt.Git
-  alias Toolbelt.Git.Commit
+  alias TBGit.Author
+  alias TBGit.Commit
   alias TbSystem.IO
   alias TbSystem.Command
 
@@ -16,7 +17,7 @@ defmodule Toolbelt.Pair do
               |> Enum.map(&Git.get_config("#{@pair_key}.#{&1}", global: true))
               |> Enum.map(&parse_author/1)
 
-    last_author = Git.last_commit.author
+    last_author = Commit.last_commit.author.email
 
     index = Enum.find_index(authors, fn(a) -> a["email"] == last_author end) || 0
     author = Enum.at(authors, index - 1)
@@ -52,7 +53,7 @@ defmodule Toolbelt.Pair do
   @doc "print pair status"
   def print_status do
     print_authors(Git.get_config(@authors_key))
-    Git.last_commits |> Enum.each(&print_commit/1)
+    Commit.last_commits |> Enum.each(&print_commit/1)
     {:ok}
   end
 
@@ -68,7 +69,7 @@ defmodule Toolbelt.Pair do
     Git.set_config("#{name} <#{email}>", "#{@pair_key}.#{author}", global: true)
   end
 
-  defp print_commit(%Commit{sha: sha, author: author, committer: committer, message: message}) do
+  defp print_commit(%Commit{sha: sha, author: %Author{email: author}, committer: %Author{email: committer}, message: message}) do
     colored_author    = IO.add_color(author)
     colored_committer = IO.add_color(committer)
     [sha, " | ", colored_author, " | ", colored_committer, " => ", message]
