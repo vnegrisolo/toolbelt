@@ -11,6 +11,7 @@ defmodule TbSystem.CommandTest do
       assert Command.run("echo |foo||bar|", separator: "|") == ~w[foo bar]
 
       assert Command.run(~w[echo foo bar]) == ["foo bar"]
+      assert Command.run(["echo", [], "foo", "bar"]) == ["foo bar"]
       assert Command.run(["echo", "foo\nbar"]) == ~w[foo bar]
       assert Command.run(~w[echo foo|bar], separator: "|") == ~w[foo bar]
     end

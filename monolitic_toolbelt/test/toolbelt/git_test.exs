@@ -22,37 +22,6 @@ defmodule Toolbelt.GitTest do
     end
   end
 
-  describe "config/1, config/2 and reset_config/1" do
-    setup [:emulate_git_repo]
-
-    test "set, get and reset git config", context do
-      namespace_key = "toolbelt.test"
-      key = "#{namespace_key}.sport"
-
-      Git.set_config("climbing", key)
-      assert Git.get_config(key) == "climbing"
-
-      Git.reset_config(namespace_key)
-      assert Git.get_config(key) == ""
-
-      File.cd(context[:original_dir])
-    end
-
-    test "set, get and reset git config with global flag", context do
-      namespace_key = "toolbelt.test"
-      key = "#{namespace_key}.sport"
-
-      assert Git.get_config(key, global: true) == ""
-      Git.set_config("climbing", key, global: true)
-      assert Git.get_config(key, global: true) == "climbing"
-
-      Git.reset_config(namespace_key, global: true)
-      assert Git.get_config(key, global: true) == ""
-
-      File.cd(context[:original_dir])
-    end
-  end
-
   defp emulate_git_repo(_context) do
     folder = "/tmp/test-#{__MODULE__}"
     File.rm_rf(folder)

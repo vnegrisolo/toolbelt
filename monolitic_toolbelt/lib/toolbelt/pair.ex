@@ -4,17 +4,21 @@ defmodule Toolbelt.Pair do
   alias Toolbelt.Git
   alias TBGit.Author
   alias TBGit.Commit
+  alias TBGit.Config
   alias TbSystem.IO
   alias TbSystem.Command
 
-  @pair_key "toolbelt.pair"
-  @authors_key "#{@pair_key}.authors"
+  @config_authors %Config{
+    namespace: "pair",
+    key:       "authors"
+  }
 
   def commit(args) do
-    authors = @authors_key
-              |> Git.get_config
+    authors = @config_authors
+              |> Config.get
               |> String.split(",")
-              |> Enum.map(&Git.get_config("#{@pair_key}.#{&1}", global: true))
+              |> Enum.map(&config_author/1)
+              |> Enum.map(&Config.get)
               |> Enum.map(&parse_author/1)
 
     last_author = Commit.last_commit.author.email
@@ -41,32 +45,33 @@ defmodule Toolbelt.Pair do
   def configure([]), do: {:ok}
   def configure(authors) do
     do_configure(authors)
-    authors
-    |> Enum.join(",")
-    |> Git.set_config(@authors_key)
+    @config_authors
+    |> Config.set(Enum.join(authors, ","))
   end
 
   def reset do
-    Git.reset_config(@pair_key)
+    Config.reset(@config_authors)
   end
 
   @doc "print pair status"
   def print_status do
-    print_authors(Git.get_config(@authors_key))
+    @config_authors |> Config.get |> print_authors
     Commit.last_commits |> Enum.each(&print_commit/1)
     {:ok}
   end
 
   defp do_configure([]), do: {:ok}
   defp do_configure([author|list]) do
-    Git.get_config("#{@pair_key}.#{author}", global: true) || do_configure(author)
+    config_author(author) |> Config.get || do_configure(author)
     do_configure(list)
   end
   defp do_configure(author) do
     IO.puts(["##### ", :cyan, author, :reset, " #####"])
     email = IO.gets(["type your ", :yellow, "email", :reset, ": "])
     name  = IO.gets(["type your ", :yellow, "name",  :reset, ": "])
-    Git.set_config("#{name} <#{email}>", "#{@pair_key}.#{author}", global: true)
+
+    config_author(author)
+    |> Config.set("#{name} <#{email}>")
   end
 
   defp print_commit(%Commit{sha: sha, author: %Author{email: author}, committer: %Author{email: committer}, message: message}) do
@@ -83,5 +88,13 @@ defmodule Toolbelt.Pair do
     |> Enum.map(&IO.add_color/1)
     |> Enum.map(&["Author: ", &1, "\n"])
     |> IO.puts
+  end
+
+  defp config_author(author) do
+    %Config{
+      namespace: "pair",
+      key:       author,
+      global:    true
+    }
   end
 end
