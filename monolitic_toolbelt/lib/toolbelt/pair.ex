@@ -1,7 +1,6 @@
 defmodule Toolbelt.Pair do
   @moduledoc "Setup pair programming on git repo"
 
-  alias Toolbelt.Git
   alias TBGit.Author
   alias TBGit.Commit
   alias TBGit.Config
