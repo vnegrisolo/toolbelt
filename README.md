@@ -18,9 +18,8 @@ Useful commands:
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-1. Add `toolbelt` to your list of dependencies in `mix.exs`:
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+by adding `toolbelt` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -28,10 +27,6 @@ def deps do
 end
 ```
 
-2. Ensure `toolbelt` is started before your application:
-
-```elixir
-def application do
-  [applications: [:toolbelt]]
-end
-```
+Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
+and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
+be found at [https://hexdocs.pm/toolbelt](https://hexdocs.pm/toolbelt).
