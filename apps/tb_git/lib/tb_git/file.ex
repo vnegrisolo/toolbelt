@@ -1,9 +1,9 @@
-defmodule Toolbelt.Git do
-  @moduledoc "Deals with git commands"
+defmodule TBGit.File do
+  @moduledoc "git file"
 
   alias TbSystem.Command
 
-  @changed_files_commands [
+  @changed_commands [
     "git diff --name-only",
     "git diff --name-only --staged",
     "git diff --name-only ..master",
@@ -11,8 +11,8 @@ defmodule Toolbelt.Git do
   ]
 
   @doc "list changed files"
-  def changed_files do
-    @changed_files_commands
+  def changed do
+    @changed_commands
     |> Enum.map(&Command.run/1)
     |> List.flatten
     |> Enum.sort

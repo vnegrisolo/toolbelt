@@ -7,7 +7,7 @@ defmodule TBGit.CommitTest do
   describe "last_commits/0" do
     setup [:emulate_git_repo]
 
-    test "lists changed files", %{original_dir: original_dir} do
+    test "last 10 commits", %{original_dir: original_dir} do
       commits = Commit.last_commits
                 |> Enum.map(&(Map.put(&1, :sha, nil)))
       assert commits == [
@@ -38,7 +38,7 @@ defmodule TBGit.CommitTest do
   describe "last_commit/0" do
     setup [:emulate_git_repo]
 
-    test "lists changed files", %{original_dir: original_dir} do
+    test "last commit", %{original_dir: original_dir} do
       commit = Commit.last_commit
                |> Map.put(:sha, nil)
 

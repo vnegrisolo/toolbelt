@@ -39,6 +39,6 @@ defmodule TBGit.ConfigTest do
     File.cd(folder)
     System.cmd("git", ~w[init])
 
-    [original_dir: String.trim(original_dir)]
+    %{original_dir: String.trim(original_dir)}
   end
 end

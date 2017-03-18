@@ -1,24 +1,23 @@
-defmodule Toolbelt.GitTest do
+defmodule TBGit.FileTest do
   use ExUnit.Case, async: false
-  alias Toolbelt.Git
-  doctest Git
+  doctest File
 
-  describe "changed_files/0" do
+  describe "changed/0" do
     setup [:emulate_git_repo]
 
-    test "lists changed files", context do
+    test "lists changed files", %{original_dir: original_dir} do
       File.rm("first_file")
       File.write("second_file", "update")
       File.touch("third_file")
-      assert Git.changed_files == ~w[first_file second_file third_file]
+      assert TBGit.File.changed == ~w[first_file second_file third_file]
 
       System.cmd("git", ~w[add .])
-      assert Git.changed_files == ~w[first_file second_file third_file]
+      assert TBGit.File.changed == ~w[first_file second_file third_file]
 
       System.cmd("git", ~w[commit -m another_commit])
-      assert Git.changed_files == ~w[first_file second_file third_file]
+      assert TBGit.File.changed == ~w[first_file second_file third_file]
 
-      File.cd(context[:original_dir])
+      File.cd(original_dir)
     end
   end
 
@@ -38,6 +37,6 @@ defmodule Toolbelt.GitTest do
 
     System.cmd("git", ~w[checkout -b my-feature])
 
-    [original_dir: String.trim(original_dir)]
+    %{original_dir: String.trim(original_dir)}
   end
 end

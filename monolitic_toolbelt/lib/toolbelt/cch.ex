@@ -32,7 +32,7 @@ defmodule Toolbelt.Cch do
 
   @doc "runs a command for files after transforms and filter"
   @spec run(atom | Config.t, files) :: {:ok} | {:none}
-  def run(config, files \\ Git.changed_files)
+  def run(config, files \\ TBGit.File.changed)
   def run(config, files) when is_atom(config), do: run(Map.fetch!(@configs, config), files)
   def run(config, files), do: do_run(files, config)
 
