@@ -15,6 +15,7 @@ defmodule Toolbelt.Mixfile do
 
   defp deps do
     [
+      {:apex, "~>1.0.0", only: [:dev, :test]},
       {:credo, "~> 0.5", only: [:dev, :test]},
       {:dialyxir, "~> 0.5", only: :dev, runtime: false},
       {:earmark, "~> 1.0.0", only: :dev},

@@ -3,14 +3,11 @@ defmodule TbCch.CLI do
   CLI for cch => Runs commands against changed files in git
   """
 
-  alias TbSystem.IO
-
-  # @configs Application.fetch_env!(:tb_cch)
+  @configs Application.fetch_env!(:tb_cch, :run)
 
   @doc "this is the main function for the script"
   @spec main(list(String.t)) :: any
   def main(args) do
-    IO.puts [:cyan, inspect args]
     args |> parse_args |> run
   end
 
@@ -20,8 +17,22 @@ defmodule TbCch.CLI do
 
   defp run({[h:    true], _argv, _invalids}), do: print_help()
   defp run({[help: true], _argv, _invalids}), do: print_help()
+  defp run({switches, _argv, _invalids}) do
+    switches
+    |> Keyword.keys
+    |> Enum.map(&config/1)
+    |> Enum.map(&do_run/1)
+  end
 
   defp print_help do
-    IO.puts(@moduledoc)
+    TbSystem.IO.puts(@moduledoc)
+  end
+
+  defp config(name) do
+    Map.fetch!(@configs, name)
+  end
+
+  defp do_run(config) do
+    TbSystem.IO.puts [:yellow, inspect config]
   end
 end
