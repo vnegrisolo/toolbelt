@@ -6,16 +6,16 @@ This is my **toolbelt** project.
 
 Useful commands:
 
-| Command                                      | Description         |
-| -------------------------------------------- | ------------------- |
-| `mix deps.get`                               | get dependencies    |
-| `mix credo`                                  | style code analysis |
-| `mix dialyzer`                               | BEAM code analysis  |
-| `mix test --trace`                           | run tests           |
-| `MIX_ENV=test mix coveralls.html --umbrella` | test coverage       |
-| `mix docs`                                   | generate docs       |
-| `MIX_ENV=prod mix escript.build`             | generate script     |
-| `mix c; MIX_ENV=test mix t`                  | all commands        |
+| Command                                         | Description         |
+| --------------------------------------------    | ------------------- |
+| `mix deps.get`                                  | get dependencies    |
+| `mix credo`                                     | style code analysis |
+| `mix dialyzer`                                  | BEAM code analysis  |
+| `mix test --trace`                              | run tests           |
+| `MIX_ENV=test mix coveralls.html --umbrella`    | test coverage       |
+| `mix docs`                                      | generate docs       |
+| `MIX_ENV=prod mix escript.build`                | generate script     |
+| `mix d; MIX_ENV=test mix t; MIX_ENV=prod mix p` | all commands        |
 
 ## Installation
 
