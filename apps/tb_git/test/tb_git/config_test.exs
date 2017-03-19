@@ -1,6 +1,6 @@
-defmodule TBGit.ConfigTest do
+defmodule TbGit.ConfigTest do
   use ExUnit.Case, async: false
-  alias TBGit.Config
+  alias TbGit.Config
   doctest Config
 
   describe "get/1, set/2 and reset/1" do

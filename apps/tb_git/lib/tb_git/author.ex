@@ -1,7 +1,7 @@
-defmodule TBGit.Author do
+defmodule TbGit.Author do
   @moduledoc "git author"
 
-  @typedoc "TBGit.Author values"
+  @typedoc "TbGit.Author values"
   @type t :: %__MODULE__{
     name: String.t,
     email: String.t

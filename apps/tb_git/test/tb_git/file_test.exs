@@ -1,4 +1,4 @@
-defmodule TBGit.FileTest do
+defmodule TbGit.FileTest do
   use ExUnit.Case, async: false
   doctest File
 
@@ -9,13 +9,13 @@ defmodule TBGit.FileTest do
       File.rm("first_file")
       File.write("second_file", "update")
       File.touch("third_file")
-      assert TBGit.File.changed == ~w[first_file second_file third_file]
+      assert TbGit.File.changed == ~w[first_file second_file third_file]
 
       System.cmd("git", ~w[add .])
-      assert TBGit.File.changed == ~w[first_file second_file third_file]
+      assert TbGit.File.changed == ~w[first_file second_file third_file]
 
       System.cmd("git", ~w[commit -m another_commit])
-      assert TBGit.File.changed == ~w[first_file second_file third_file]
+      assert TbGit.File.changed == ~w[first_file second_file third_file]
 
       File.cd(original_dir)
     end

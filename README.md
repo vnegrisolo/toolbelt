@@ -15,6 +15,7 @@ Useful commands:
 | `MIX_ENV=test mix coveralls.html --umbrella` | test coverage       |
 | `mix docs`                                   | generate docs       |
 | `MIX_ENV=prod mix escript.build`             | generate script     |
+| `mix c; MIX_ENV=test mix t`                  | all commands        |
 
 ## Installation
 

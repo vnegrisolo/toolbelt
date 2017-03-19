@@ -1,4 +1,4 @@
-defmodule TBGit.File do
+defmodule TbGit.File do
   @moduledoc "git file"
 
   alias TbSystem.Command

@@ -1,10 +1,10 @@
-defmodule TBGit.Commit do
+defmodule TbGit.Commit do
   @moduledoc "git commit"
 
   alias TbGit.Author
   alias TbSystem.Command
 
-  @typedoc "TBGit.Commit values"
+  @typedoc "TbGit.Commit values"
   @type t :: %__MODULE__{
     sha: String.t,
     author: Author.t,
@@ -33,8 +33,8 @@ defmodule TBGit.Commit do
   defp build_commmit([sha, author_email, committer_email, message]) do
     %__MODULE__{
       sha: sha,
-      author: %TBGit.Author{email: author_email},
-      committer: %TBGit.Author{email: committer_email},
+      author: %TbGit.Author{email: author_email},
+      committer: %TbGit.Author{email: committer_email},
       message: message,
     }
   end

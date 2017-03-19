@@ -1,7 +1,7 @@
-defmodule TBGit.CommitTest do
+defmodule TbGit.CommitTest do
   use ExUnit.Case, async: false
-  alias TBGit.Commit
-  alias TBGit.Author
+  alias TbGit.Commit
+  alias TbGit.Author
   doctest Commit
 
   describe "last_commits/0" do
