@@ -44,7 +44,6 @@ defmodule Toolbelt.Mixfile do
         "coveralls.html --umbrella",
       ],
       p: [
-        "escript.build"
       ]
     ]
   end

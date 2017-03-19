@@ -2,20 +2,42 @@
 
 This is my **toolbelt** project.
 
-# Contribution
+## Useful Commands
 
-Useful commands:
+To be run in the **umbrella project**:
 
 | Command                                         | Description         |
 | --------------------------------------------    | ------------------- |
-| `mix deps.get`                                  | get dependencies    |
 | `mix credo`                                     | style code analysis |
 | `mix dialyzer`                                  | BEAM code analysis  |
+| `mix docs`                                      | generate docs       |
 | `mix test --trace`                              | run tests           |
 | `MIX_ENV=test mix coveralls.html --umbrella`    | test coverage       |
+
+To be run in the **individuals project**:
+
+| Command                                         | Description         |
+| --------------------------------------------    | ------------------- |
+| `mix credo`                                     | style code analysis |
+| `mix dialyzer`                                  | BEAM code analysis  |
 | `mix docs`                                      | generate docs       |
-| `MIX_ENV=prod mix escript.build`                | generate script     |
-| `mix d; MIX_ENV=test mix t; MIX_ENV=prod mix p` | all commands        |
+| `mix test --trace`                              | run tests           |
+| `MIX_ENV=test mix coveralls.html`               | test coverage       |
+
+To generate scripts:
+
+```shell
+cd apps/tb_cch
+MIX_ENV=prod mix escript.build
+```
+
+For just being short there are these mix aliases based on `MIX_ENV` to be used:
+
+| Command              | Description         |
+| -------------------- | ------------------- |
+| `mix d`              | credo/dialyzer/docs |
+| `MIX_ENV=test mix t` | test/coveralls      |
+| `MIX_ENV=prod mix p` | escript             |
 
 ## Installation
 

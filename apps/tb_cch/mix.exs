@@ -14,8 +14,8 @@ defmodule TbCch.Mixfile do
       start_permanent: Mix.env == :prod,
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      escript: escript(),
       aliases: aliases(),
+      escript: escript(),
    ]
   end
 
@@ -30,6 +30,7 @@ defmodule TbCch.Mixfile do
       {:earmark, "~> 1.0.0", only: :dev},
       {:ex_doc, "~> 0.14", only: :dev},
       {:excoveralls, "~> 0.6", only: :test},
+      {:tb_git, in_umbrella: true},
       {:tb_system, in_umbrella: true},
     ]
   end
@@ -54,6 +55,7 @@ defmodule TbCch.Mixfile do
         "coveralls.html",
       ],
       p: [
+        "escript.build"
       ]
     ]
   end
