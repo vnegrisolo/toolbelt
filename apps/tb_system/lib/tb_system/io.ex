@@ -4,8 +4,11 @@ defmodule TbSystem.IO do
   @io Application.fetch_env!(:tb_system, :io)
   @colors ~w[blue cyan green magenta red white yellow]a
 
+  @typedoc "IO implementation"
+  @type io :: IO | TbSystem.IO.Mock
+
   @doc "reads input with colored message"
-  @spec gets(list(String.t | atom), TbSystem.IO.Mock.t) :: String.t
+  @spec gets(list(String.t | atom), io) :: String.t
   def gets(text, io \\ @io) do
     text
     |> format_color
@@ -14,8 +17,12 @@ defmodule TbSystem.IO do
   end
 
   @doc "print colored message"
-  @spec puts(list(String.t | atom), TbSystem.IO.Mock.t) :: :ok
-  def puts(text, io \\ @io) do
+  @spec puts(String.t | list(String.t | atom), io) :: :ok
+  def puts(text, io \\ @io)
+  def puts(text, io) when is_binary(text) do
+    text |> String.split |> puts(io)
+  end
+  def puts(text, io) do
     text
     |> format_color
     |> io.puts

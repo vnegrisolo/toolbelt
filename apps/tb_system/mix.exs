@@ -46,7 +46,6 @@ defmodule TbSystem.Mixfile do
         "coveralls.html",
       ],
       p: [
-        "escript.build"
       ]
     ]
   end

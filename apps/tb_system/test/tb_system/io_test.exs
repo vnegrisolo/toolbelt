@@ -17,6 +17,14 @@ defmodule TbSystem.IOTest do
   end
 
   describe "IO.puts/1" do
+    test "prints regular text", %{io: io} do
+      assert capture_io(
+        fn ->
+          assert TbSystem.IO.puts("foo", io) == :ok
+        end
+      ) == "foo\e[0m\n"
+    end
+
     test "prints colored text", %{io: io} do
       assert capture_io(
         fn ->
