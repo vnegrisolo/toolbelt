@@ -5,7 +5,7 @@ defmodule TbSystem.IO do
   @colors ~w[blue cyan green magenta red white yellow]a
 
   @typedoc "IO implementation"
-  @type io :: IO | TbSystem.IO.Mock
+  @type io :: IO | TbSystem.Mock.IO
 
   @doc "reads input with colored message"
   @spec gets(list(String.t | atom), io) :: String.t

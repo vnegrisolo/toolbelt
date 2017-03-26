@@ -1,4 +1,4 @@
-defmodule TbSystem.IO.Mock do
+defmodule TbSystem.Mock.IO do
   @moduledoc "IO mock"
 
   @spec puts(String.t) :: atom
